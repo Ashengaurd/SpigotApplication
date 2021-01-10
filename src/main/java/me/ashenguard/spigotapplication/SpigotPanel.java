@@ -202,8 +202,8 @@ public class SpigotPanel extends Application {
             }
         });
         tableView.setFixedCellSize(40);
-        tableView.setMinSize(280, 550);
-        tableView.setMaxSize(280, 550);
+        tableView.setMinSize(270, 550);
+        tableView.setMaxSize(270, 550);
         tableView.getSelectionModel().clearSelection();
 
         button.setDisable(true);
@@ -216,8 +216,8 @@ public class SpigotPanel extends Application {
             if (selected == null) return;
             new SpigotResourceWindow(selected).setupScene(this);
         });
-        button.setMinWidth(280);
-        button.setMaxWidth(280);
+        button.setMinWidth(270);
+        button.setMaxWidth(270);
         button.setAlignment(Pos.BOTTOM_CENTER);
 
         GridPane tablePane = new GridPane();

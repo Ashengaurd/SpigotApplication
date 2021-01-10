@@ -122,6 +122,7 @@ public class SpigotResourceWindow {
         // Setup CENTER
         HBox buttonBox = new HBox(9);
         buttonBox.getChildren().addAll(getResourceButtons(application, 254));
+        buttonBox.setPadding(new Insets(10, 0, 10, 0));
         center.getChildren().add(buttonBox);
         center.getChildren().add(getResourceDates(false, 0));
         
