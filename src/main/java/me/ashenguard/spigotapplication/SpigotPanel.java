@@ -90,16 +90,18 @@ public class SpigotPanel extends Application {
         this.credits = false;
     }
     public void enableConnectionLog() {
-        this.connectionLog = true;
+        this.connectionLog = false;
     }
 
     @Override
     public void start(Stage stage) {
+        mainStage = stage;
         BLANK = new Image("https://i.ibb.co/2hZM74C/svg-13-512.png");
         resource = new SpigotResource(spigotID);
 
-        //  - MainStage
-        mainStage = stage;
+        //  - Connection log
+        if (connectionLog) showConnectionLog();
+
         mainStage.setTitle(String.format("%s - Version: %s", resource.name , version.toString(true)));
         mainStage.setScene(mainScene);
         mainStage.setResizable(false);
@@ -130,17 +132,16 @@ public class SpigotPanel extends Application {
         BorderPane layout = new BorderPane();
         layout.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         layout.setPadding(new Insets(10, 10, 10, 10));
-        layout.setCenter(resourceLayout);
+        layout.setLeft(resourceLayout);
         layout.setRight(getDependencyPane());
-        if (connectionLog) layout.setLeft(getLogBox());
 
-        mainScene = new Scene(layout, connectionLog ? 1200 : 800, 600);
+        mainScene = new Scene(layout, 800, 600);
         mainScene.setOnMouseClicked(event -> System.out.println(String.format("Mouse pos %.2f, %.2f", event.getX(), event.getY())));
         stage.setScene(mainScene);
         stage.show();
     }
 
-    private Pane getLogBox() {
+    private void showConnectionLog() {
         ListView<String> listView = new ListView<>(FXCollections.observableArrayList(WebReader.getLogs()));
         listView.setStyle("-fx-alignment: CENTER-LEFT;");
         listView.setPlaceholder(new Label("No Connection recorded"));
@@ -148,7 +149,15 @@ public class SpigotPanel extends Application {
         listView.setMinSize(380, 580);
 
         VBox logBox = new VBox(0, listView);
-        logBox.setPadding(new Insets(0, 10, 0, 0));
+        logBox.setPadding(new Insets(10));
+        Stage logStage = new Stage();
+        Scene scene = new Scene(logBox, 400, 600, Color.WHITE);
+        logStage.setScene(scene);
+        logStage.setTitle("Connection Log");
+        logStage.setResizable(false);
+        logStage.setX(0);
+        logStage.setY(0);
+        logStage.show();
 
         new AnimationTimer() {
             @Override public void handle(long currentNanoTime) {
@@ -156,8 +165,6 @@ public class SpigotPanel extends Application {
                 try { Thread.sleep(500); } catch (InterruptedException ignored) { }
             }
         }.start();
-
-        return logBox;
     }
 
     private TextArea getDescriptions() {
