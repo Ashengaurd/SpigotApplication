@@ -136,7 +136,6 @@ public class SpigotPanel extends Application {
         layout.setRight(getDependencyPane());
 
         mainScene = new Scene(layout, 800, 600);
-        mainScene.setOnMouseClicked(event -> System.out.println(String.format("Mouse pos %.2f, %.2f", event.getX(), event.getY())));
         stage.setScene(mainScene);
         stage.show();
     }

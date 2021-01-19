@@ -5,11 +5,11 @@
 ![](https://img.shields.io/github/downloads/Ashengaurd/SpigotApplication/total)
 ![](https://img.shields.io/discord/690930221930643467?label=discord)
 
-This build allow you to add a openable window for your spigot resource.  
-It allow your users to check your plugin and all requirements of your plugin. (Check [#Sceenshots](#Screenshots))
+This build allows you to add a openable window for your spigot resource.  
+It allows your users to check your plugin and all requirements of your plugin. (Check [#Sceenshots](#Screenshots))
 
 ## Features
-* Full automated by on spigot api
+* Full automated by on the Spigot api
 * Linked to resource page
 * Linked to support link provided on spigot
 * Linked to additional information link provided on spigot
@@ -25,7 +25,7 @@ https://jitpack.io/#Ashengaurd/SpigotApplication/
 Create a class and paste the following example code in the class.
 This application has some more configs which you can find at [#Customization](#Customization)
 ```java
-import me.ashenguard.api.versions.Version;
+import me.ashenguard.api.utils.versions.Version;
 
 public class ExampleEXE extends SpigotPanel {
     // The spigot page ID
@@ -47,7 +47,7 @@ public class ExampleEXE extends SpigotPanel {
 After that you need to define this class before build. ([Maven](#Maven), [Gradle](#Gradle))
 
 ### Maven
-In maven you need to add this plugin to your build (pom.xml) replacing *path.to.class* with the class you created.
+In the maven you need to add this plugin to your build (pom.xml) replacing *path.to.class* with the class you created.
 ```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -72,7 +72,7 @@ application {
 ```
 
 ## Customization
-This application has several customization which you can make.
+This application has some customization which you can make.
 ### Description
 Allow you to change the description panel.  
 Code: `setDescription(String description)`
@@ -82,7 +82,7 @@ Allow you to change the support link.
 Code: `setSupport(String URL)`
 > Default: Link provided in spigot page
 ### Requirements
-Allow you add requirements to application.  
+Allow you to add requirements to application.  
 Code: `addDependency(int... SpigotID)`  
 Alternative: `setDependencies(List<Integer> dependencies)`
 > Default: Empty  
@@ -98,7 +98,7 @@ Code: `disableCredits()`
 
 ### Example based on AGMCore plugin
 ```java
-import me.ashenguard.api.versions.Version;
+import me.ashenguard.api.utils.versions.Version;
 
 public class EXE extends SpigotPanel {
     public EXE() {

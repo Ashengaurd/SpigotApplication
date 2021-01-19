@@ -6,23 +6,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Version implements Comparable<Version> {
+    private final static Pattern PATTERN = Pattern.compile("(\\d+)[._ -](\\d+)[._ -]?(\\d+)?[._ -]?(?i)(Beta|Alpha|Release)?");
+
     public final int major;
     public final int minor;
     public final int patch;
     public final VersionStatus status;
 
     public Version(String version) {
-        Pattern pattern = Pattern.compile("^\\d+[.]\\d+([.]\\d+)?((.)?(?i)(Beta|Alpha|Release))?$");
-        Matcher validator = pattern.matcher(version);
-
+        Matcher validator = PATTERN.matcher(version);
         if (!validator.find()) throw new IllegalFormatException();
 
+        version = validator.group();
         Matcher matcher = Pattern.compile("\\d+").matcher(version);
 
         this.major = matcher.find() ? Integer.parseInt(matcher.group()) : 0;
         this.minor = matcher.find() ? Integer.parseInt(matcher.group()) : 0;
         this.patch = matcher.find() ? Integer.parseInt(matcher.group()) : 0;
-        this.status = VersionStatus.get(version);
+        this.status = null;
     }
     public Version(int major, int minor, int patch, VersionStatus status) {
         this.major = major;
@@ -44,7 +45,6 @@ public class Version implements Comparable<Version> {
     public String toString() {
         return major + "." + minor + "." + patch + " " + status;
     }
-
     public String toString(boolean ignoreStatus) {
         if (ignoreStatus) return major + "." + minor + "." + patch;
         return major + "." + minor + "." + patch + " " + status;

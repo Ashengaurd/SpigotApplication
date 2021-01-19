@@ -3,7 +3,7 @@ package me.ashenguard.api.versions;
 public enum VersionStatus {
     Release(0), Beta(1), Alpha(2);
 
-    int value;
+    final int value;
     VersionStatus(int value) {
         this.value = value;
     }

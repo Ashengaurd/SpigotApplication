@@ -13,20 +13,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WebReader {
-    private String url;
-    private int retry = 5;
-    private boolean logging = false;
+    private final String url;
+    private final int retry;
+    private final boolean logging;
 
     public WebReader(String url) {
-        this.url = url;
+        this(url, 5, false);
     }
     public WebReader(String url, int retry) {
-        this.url = url;
-        this.retry = retry;
+        this(url, retry, false);
     }
     public WebReader(String url, boolean logging) {
-        this.url = url;
-        this.logging = logging;
+        this(url, 5, logging);
     }
     public WebReader(String url, int retry, boolean logging) {
         this.url = url;
@@ -59,31 +57,32 @@ public class WebReader {
     }
 
     public List<String> readLines() {
-        try {
-            log(String.format("Initializing connection to %s", url));
-            URLConnection con = new URL(url).openConnection();
-            for (int i = 0; i < retry; i++) {
-                log(String.format("Connection attempt %d: ", i + 1), false);
-                String redirect = con.getHeaderField("Location");
-                if (redirect != null) {
-                    log(String.format("Failed, %d Attempts remained(Redirected to %s)", 4 - i, redirect));
-                    con = new URL(redirect).openConnection();
+        log(String.format("Initializing connection to %s", url));
+        for (int i = 0; i < retry; i++) {
+            try {
+                URLConnection con = new URL(url).openConnection();
+                for (int j = 0; j < retry; j++) {
+                    log(String.format("Connection attempt %d: ", j + 1), false);
+                    String redirect = con.getHeaderField("Location");
+                    if (redirect != null) {
+                        log(String.format("Redirected, %d Redirection attempts remained(Redirected to %s)", 4 - j, redirect));
+                        con = new URL(redirect).openConnection();
+                    } else break;
                 }
-                else break;
-            }
-            if (con.getHeaderField("Location") != null) {
-                log("Failed, No attempts remained.");
-                log("Connection closed");
-                return new ArrayList<>();
-            }
+                if (con.getHeaderField("Location") != null) {
+                    log("Connection closed");
+                    return new ArrayList<>();
+                }
 
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            log("Successful.");
-            return buffer.lines().collect(Collectors.toList());
-        } catch (IOException exception) {
-            log(String.format("Connection lost due %s", exception.getMessage()));
-            return new ArrayList<>();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                log("Successful.");
+                return buffer.lines().collect(Collectors.toList());
+            } catch (IOException exception) {
+                log(String.format("Failed, %d Attempts remained(%s)", 4 - i, exception.toString()));
+            }
         }
+        log("Connection has been lost");
+        return new ArrayList<>();
     }
 
     public String read() {
