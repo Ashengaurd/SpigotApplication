@@ -23,7 +23,7 @@ public class Version implements Comparable<Version> {
         this.major = matcher.find() ? Integer.parseInt(matcher.group()) : 0;
         this.minor = matcher.find() ? Integer.parseInt(matcher.group()) : 0;
         this.patch = matcher.find() ? Integer.parseInt(matcher.group()) : 0;
-        this.status = null;
+        this.status = VersionStatus.get(version);
     }
     public Version(int major, int minor, int patch, VersionStatus status) {
         this.major = major;
