@@ -29,7 +29,7 @@ public enum MessageMode {
         if (permission == null) this.permission = null;
         else if (permission.equals("AUTO")) this.permission = "Messages." + name();
         else this.permission = "Messages." + permission;
-        if (prefix.equals("NAME")) this.prefix = name();
+        if (prefix != null && prefix.equals("NAME")) this.prefix = name();
         else this.prefix = prefix;
     }
 
