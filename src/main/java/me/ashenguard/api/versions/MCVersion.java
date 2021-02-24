@@ -2,6 +2,9 @@ package me.ashenguard.api.versions;
 
 import org.bukkit.Bukkit;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public enum MCVersion {
     V1_16("1.16"),
     V1_15("1.15"),
@@ -29,8 +32,9 @@ public enum MCVersion {
     }
 
     public static MCVersion getMCVersion() {
-        MCVersion mcVersion = null;
-        Version version = new Version(Bukkit.getVersion());
+        MCVersion mcVersion = values()[0];
+        Matcher matcher = Pattern.compile("\\(MC:.+?\\)").matcher(Bukkit.getVersion());
+        Version version = matcher.find() ? new Version(matcher.group()) : V1_16.version;
         for (MCVersion mcv: values()) if (mcv.version.major == version.major && mcv.version.minor == version.minor) mcVersion = mcv;
         return mcVersion;
     }
