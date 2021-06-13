@@ -3,7 +3,7 @@
 ![](https://img.shields.io/github/license/Ashengaurd/SpigotApplication)
 ![](https://img.shields.io/github/v/release/Ashengaurd/SpigotApplication)
 ![](https://img.shields.io/github/downloads/Ashengaurd/SpigotApplication/total)
-![](https://img.shields.io/discord/690930221930643467?label=discord)
+[![Discord](https://img.shields.io/discord/690930221930643467?label=discord)](https://discord.gg/6exsySK)
 
 This build allows you to add a openable window for your spigot resource.  
 It allows your users to check your plugin and all requirements of your plugin. (Check [#Sceenshots](#Screenshots))
